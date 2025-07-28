@@ -1,0 +1,227 @@
+{
+  "proxies": {
+    "description": "代理服务器地址",
+    "type": "string",
+    "hint": "http://host:port，例如：http://127.0.0.1:7890",
+    "default": ""
+  },
+  "default_params": {
+    "description": "各搜索引擎的默认参数",
+    "type": "object",
+    "items": {
+      "animetrace": {
+        "description": "AnimeTrace搜索引擎参数",
+        "type": "object",
+        "items": {
+          "model": {
+            "description": "识别模型（默认：full_game_model_kira）",
+            "type": "string",
+            "hint": "可选模型: anime_model_lovelive, pre_stable, anime, full_game_model_kira",
+            "default": "full_game_model_kira"
+          },
+          "is_multi": {
+            "description": "多角色搜索模式",
+            "type": "int",
+            "hint": "检测图片中的多个角色",
+            "default": null
+          },
+          "ai_detect": {
+            "description": "AI检测模式",
+            "type": "int",
+            "hint": "检测图片是否为AI生成",
+            "default": null
+          }
+        }
+      },
+      "ehentai": {
+        "description": "EHentai搜索引擎参数",
+        "type": "object",
+        "items": {
+          "is_ex": {
+            "description": "是否使用ExHentai而不是E-Hentai",
+            "type": "bool",
+            "hint": "需要ExHentai账号和有效Cookie",
+            "default": false
+          },
+          "covers": {
+            "description": "是否包含封面搜索结果",
+            "type": "bool",
+            "default": false
+          },
+          "similar": {
+            "description": "是否包含相似结果",
+            "type": "bool",
+            "default": true
+          },
+          "exp": {
+            "description": "是否启用实验性搜索模式",
+            "type": "bool",
+            "default": false
+          }
+        }
+      },
+      "google": {
+        "description": "Google Lens搜索引擎参数",
+        "type": "object",
+        "items": {
+          "search_type": {
+            "description": "搜索类型",
+            "type": "string",
+            "hint": "可选项: all(全部搜索), products(产品搜索), visual_matches(视觉匹配), exact_matches(精确匹配)",
+            "default": "exact_matches"
+          },
+          "q": {
+            "description": "搜索查询参数(仅在search_type不为'exact_matches'时适用)",
+            "type": "string",
+            "default": null
+          },
+          "hl": {
+            "description": "语言参数",
+            "type": "string",
+            "default": "en"
+          },
+          "country": {
+            "description": "区域设置参数",
+            "type": "string",
+            "default": "HK"
+          },
+          "max_results": {
+            "description": "最大搜索结果数",
+            "type": "int",
+            "default": 50
+          }
+        }
+      },
+      "saucenao": {
+        "description": "SauceNAO搜索引擎参数",
+        "type": "object",
+        "items": {
+          "api_key": {
+            "description": "SauceNAO API密钥",
+            "type": "string",
+            "hint": "用于访问SauceNAO API，免费账户每日限制150次，每30秒4次",
+            "default": "a4ab3f81009b003528f7e31aed187fa32a063f58"
+          },
+          "hide": {
+            "description": "隐藏级别",
+            "type": "int",
+            "default": 3
+          },
+          "numres": {
+            "description": "返回结果数量",
+            "type": "int",
+            "default": 5
+          },
+          "minsim": {
+            "description": "最低相似度",
+            "type": "int",
+            "default": 30
+          },
+          "output_type": {
+            "description": "输出类型(2表示JSON输出)",
+            "type": "int",
+            "default": 2
+          }
+        }
+      },
+      "tineye": {
+        "description": "TinEye搜索引擎参数",
+        "type": "object",
+        "items": {
+          "show_unavailable_domains": {
+            "description": "是否包含来自不可用域名的结果",
+            "type": "bool",
+            "default": false
+          },
+          "domain": {
+            "description": "过滤特定域名的结果",
+            "type": "string",
+            "default": ""
+          },
+          "tags": {
+            "description": "逗号分隔的过滤标签",
+            "type": "string",
+            "default": ""
+          },
+          "sort": {
+            "description": "排序标准",
+            "type": "string",
+            "hint": "可选项: score(按匹配评分排序), crawl_date(按爬取日期排序), size(按图片大小排序)",
+            "default": "score"
+          },
+          "order": {
+            "description": "排序顺序",
+            "type": "string",
+            "hint": "desc(降序)或asc(升序)",
+            "default": "desc"
+          }
+        }
+      }
+    }
+  },
+  "default_cookies": {
+    "description": "各搜索引擎的默认Cookie",
+    "type": "object",
+    "hint": "部分搜索引擎需要Cookie来获取更好的搜索结果",
+    "items": {
+      "ehentai": {
+        "description": "EHentai的Cookie",
+        "type": "string",
+        "hint": "格式如: ipb_member_id=; ipb_pass_hash=; igneous=，ExHentai搜索必须提供有效Cookie",
+        "default": null
+      },
+      "google": {
+        "description": "Google的Cookie",
+        "type": "string",
+        "hint": "无痕模式Cookie格式通常为AEC=; NID=; DV=，有效期约1天，建议不要使用登录状态的Cookie",
+        "default": "AEC=AVh_V2iW1iVnSEtzbnmwGdrSjkQ1v9ZzahU4hA5nELoMmWK1ccurfDuxZXo; SOCS=CAISHwgBEhJnd3NfMjAyNTA3MjQtMF9SQzEaBXpoLUNOIAEaBgiAkovEBg; NID=525=bpfcS4TLjnG44jvReynMZcUMsIXcplboAKf5CLj_TkLpvyXqVwCzEMNsOCHJ1iJPqiVoWdbCKw7H9Llf9UnGL7IvHW22TEMFY0eF7D__WvwRNIL7hCEkV3DYcncsA4jbBRk3ucyYQIc9PkW2JoBacwludbIIKmW5WvO66VFaQK7-JTvZE2s4ohjTGQUH0GfjjFX-67UwKSjhlHtgxQbwlZh2hfZ5IZwU-VX6ZnkqqI6y"
+      }
+    }
+  },
+  "available_apis": {
+    "description": "各搜索引擎的启用状态",
+    "type": "object",
+    "items": {
+      "animetrace": {
+        "description": "是否启用AnimeTrace搜索",
+        "type": "bool",
+        "default": true
+      },
+      "baidu": {
+        "description": "是否启用百度搜索",
+        "type": "bool",
+        "default": true
+      },
+      "bing": {
+        "description": "是否启用Bing搜索",
+        "type": "bool",
+        "default": true
+      },
+      "copyseeker": {
+        "description": "是否启用CopySeeker搜索",
+        "type": "bool",
+        "default": false
+      },
+      "ehentai": {
+        "description": "是否启用E-Hentai/ExHentai搜索",
+        "type": "bool",
+        "default": true
+      },
+      "google": {
+        "description": "是否启用Google Lens搜索",
+        "type": "bool",
+        "default": true
+      },
+      "saucenao": {
+        "description": "是否启用SauceNAO搜索",
+        "type": "bool",
+        "default": true
+      },
+      "tineye": {
+        "description": "是否启用TinEye搜索",
+        "type": "bool",
+        "default": true
+      }
+    }
+  }
+} 

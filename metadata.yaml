@@ -1,0 +1,5 @@
+name: "astrbot_plugin_img_rev_searcher"
+author: "drdon1234"
+description: "图片反搜项目，以图搜图，找出处"
+version: "2.3"
+repo: "https://github.com/drdon1234/astrbot_plugin_img_rev_searcher"

@@ -1,0 +1,4 @@
+httpx>=0.23.0
+Pillow>=9.0.0
+pyquery
+typing_extensions
