@@ -783,6 +783,10 @@ class ImgRevSearcherPlugin(Star):
         state = self.user_states.get(user_id)
         if not state:
             return
+        if state.get("step") == "waiting_text_confirm" and time.time() - state["timestamp"] > 10:
+            del self.user_states[user_id]
+            event.stop_event()
+            return
         if time.time() - state["timestamp"] > 30:
             async for result in self._handle_timeout(event, user_id):
                 yield result
