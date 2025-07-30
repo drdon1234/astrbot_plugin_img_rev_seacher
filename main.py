@@ -187,7 +187,8 @@ class ImgRevSearcherPlugin(Star):
             proxies=config.get("proxies", ""),
             timeout=60,
             default_params=config.get("default_params", {}),
-            default_cookies=config.get("default_cookies", {})
+            default_cookies=config.get("default_cookies", {}),
+            auto_google_config=config.get("auto_google_cookie", {})
         )
         self.state_handlers = {
             "waiting_text_confirm": self._handle_waiting_text_confirm,

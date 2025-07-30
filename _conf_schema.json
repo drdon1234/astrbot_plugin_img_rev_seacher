@@ -3,7 +3,7 @@
     "description": "代理服务器地址",
     "type": "string",
     "hint": "http://host:port，例如：http://127.0.0.1:7890",
-    "default": ""
+    "default": null
   },
   "default_params": {
     "description": "各搜索引擎的默认参数",
@@ -136,12 +136,12 @@
           "domain": {
             "description": "过滤特定域名的结果",
             "type": "string",
-            "default": ""
+            "default": null
           },
           "tags": {
             "description": "逗号分隔的过滤标签",
             "type": "string",
-            "default": ""
+            "default": null
           },
           "sort": {
             "description": "排序标准",
@@ -159,6 +159,33 @@
       }
     }
   },
+  "auto_google_cookie": {
+    "description": "Google Lens Cookie 自动获取设置",
+    "type": "object",
+    "items": {
+      "enabled": {
+        "description": "是否启用自动获取 Cookie",
+        "type": "bool",
+        "default": true
+      },
+      "use_remote": {
+        "description": "是否使用远程 Selenium 服务",
+        "type": "bool",
+        "default": false
+      },
+      "remote_addr": {
+        "description": "远程 Selenium 服务器地址",
+        "type": "string",
+        "hint": "如 http://localhost:4444/wd/hub",
+        "default": null
+      },
+      "update_interval": {
+        "description": "Cookie 更新间隔（秒）",
+        "type": "int",
+        "default": 43200
+      }
+    }
+  },
   "default_cookies": {
     "description": "各搜索引擎的默认Cookie",
     "type": "object",
@@ -173,8 +200,8 @@
       "google": {
         "description": "Google的Cookie",
         "type": "string",
-        "hint": "无痕模式Cookie格式通常为AEC=; NID=; DV=，有效期约1天，建议不要使用登录状态的Cookie",
-        "default": "AEC=AVh_V2iW1iVnSEtzbnmwGdrSjkQ1v9ZzahU4hA5nELoMmWK1ccurfDuxZXo; SOCS=CAISHwgBEhJnd3NfMjAyNTA3MjQtMF9SQzEaBXpoLUNOIAEaBgiAkovEBg; NID=525=bpfcS4TLjnG44jvReynMZcUMsIXcplboAKf5CLj_TkLpvyXqVwCzEMNsOCHJ1iJPqiVoWdbCKw7H9Llf9UnGL7IvHW22TEMFY0eF7D__WvwRNIL7hCEkV3DYcncsA4jbBRk3ucyYQIc9PkW2JoBacwludbIIKmW5WvO66VFaQK7-JTvZE2s4ohjTGQUH0GfjjFX-67UwKSjhlHtgxQbwlZh2hfZ5IZwU-VX6ZnkqqI6y"
+        "hint": "无痕模式Cookie有效期约1天，建议不要使用登录状态的Cookie",
+        "default": null
       }
     }
   },

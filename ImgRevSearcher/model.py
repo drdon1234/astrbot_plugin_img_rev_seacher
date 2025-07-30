@@ -5,6 +5,8 @@ from PIL import Image, ImageDraw, ImageFont
 from .utils import Network
 from .utils.types import FileContent
 from .utils.api_request import AnimeTrace, BaiDu, Bing, Copyseeker, EHentai, GoogleLens, SauceNAO, Tineye
+import time
+import asyncio
 
 
 ENGINE_MAP = {
@@ -29,7 +31,7 @@ class BaseSearchModel:
 
     def __init__(self, proxies: Optional[str] = None, cookies: Optional[dict] = None,
                  timeout: int = 60, default_params: Optional[dict] = None, 
-                 default_cookies: Optional[dict] = None):
+                 default_cookies: Optional[dict] = None, auto_google_config: Optional[dict] = None):
         """
         初始化搜索模型
 
@@ -45,6 +47,9 @@ class BaseSearchModel:
         self.timeout = timeout
         self.default_params = default_params or {}
         self.default_cookies = default_cookies or {}
+        self.auto_google_config = auto_google_config or {}
+        self._google_cookie = None
+        self._google_cookie_timestamp = 0
 
     def _prepare_engine_params(self, api: str, search_params: dict) -> dict:
         """
@@ -94,6 +99,26 @@ class BaseSearchModel:
             }
 
         return engine_params
+
+    async def _get_google_cookie(self):
+        if not self.auto_google_config.get("enabled", False):
+            return self.default_cookies.get("google")
+        now = time.time()
+        if now - self._google_cookie_timestamp < self.auto_google_config.get("update_interval", 43200):
+            return self._google_cookie
+        from .utils.cookie_manager import GoogleImagesCookieExtractor
+        extractor = GoogleImagesCookieExtractor(
+            remote_addr=self.auto_google_config.get("remote_addr") if self.auto_google_config.get("use_remote") else None,
+            headless=True,
+            timeout=30
+        )
+        result = await asyncio.to_thread(extractor.quick_run)
+        if result:
+            self._google_cookie = result["cookie"]
+            self._google_cookie_timestamp = now
+            return self._google_cookie
+        else:
+            return self.default_cookies.get("google")
 
     def _is_gif(self, file: FileContent) -> bool:
         """
@@ -166,7 +191,9 @@ class BaseSearchModel:
             if self.proxies:
                 network_kwargs["proxies"] = self.proxies
             effective_cookies = None
-            if api in self.default_cookies:
+            if api == "google":
+                effective_cookies = await self._get_google_cookie()
+            elif api in self.default_cookies:
                 effective_cookies = self.default_cookies.get(api)
             elif self.cookies:
                 effective_cookies = self.cookies

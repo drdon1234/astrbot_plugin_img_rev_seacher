@@ -25,8 +25,9 @@
 
 请先安装以下依赖库：
 
-- httpx
-- Pillow
+- httpx>=0.23.0
+- Pillow>=9.0.0
+- selenium>=4.0.0
 - pyquery
 - typing_extensions
 
@@ -67,6 +68,9 @@ pip install <module>
 #### 方式四：引用历史消息再补齐
 - 引用一张图片并发送 `以图搜图 <引擎名>`
 
+### 📝 注意事项
+- 图片参数支持 `.gif` 格式，将会截取 **第一帧** 进行搜索
+
 ### 支持的搜索引擎
 
 | 引擎        | 网址                                                        | 二次元专用 | 中国大陆直连 |
@@ -82,34 +86,46 @@ pip install <module>
 
 ## ⚠️ 配置文件说明
 
-**在使用前请核对并根据需要修改配置文件**：
+### **在使用前请核对并根据需要修改配置文件**：
 
-- 打开 **AstrBot WebUI → 插件管理 → 找到本插件 → 操作 → 插件配置**
+### 1. 打开 AstrBot WebUI → `插件管理` → 找到本插件 → `操作` → `插件配置`
+### 2. 根据需要进行设置
 
-**Google Lens 引擎的 Cookie 要求**：
+> ### 支持自动获取 Google Lens Cookie 并管理更新（推荐）
+> 在插件配置中启用 `Google Lens Cookie 自动获取设置` -> `是否启用自动获取 Cookie`
+> 
+> #### 注意事项
+> 
+> 1. 桌面端
+> - 确认已安装 **chrome 浏览器**
+> 
+> 2. docker
+> - 确认已安装 **selenium 官方镜像** `selenium/standalone-chrome`
+> - 配置 `remote_addr` 默认值 `http://localhost:4444/wd/hub`
+> - 如果 `remote_addr` 为公网地址，请将 `localhost` 改为具体地址或域名
 
-为保证 Google Lens 引擎可用，请参照下述步骤获取有效 Cookie：
-
-1. 用浏览器打开无痕窗口
-2. 按 `F12` 打开开发者工具，切到“网络(Network)”标签，过滤“Fetch/XHR”
-3. 访问 [image.google.com](https://image.google.com/) 并上传任意图片搜索
-4. 找到以 `search?vsrid=` 开头的请求，查看请求头的 `Cookie` 字段
-5. 复制完整 Cookie 内容，粘贴至配置文件的 `default_cookies.google` 项
-
-> **注意：**
-> - 无痕 cookie 格式一般为 `AEC= ; NID= ; DV=`，有效期大约1天
-> - 登录状态下 Cookie 有效期很短，不建议使用
+> ### 支持预设 Google Lens Cookie （不推荐）  
+> 请按以下步骤获取无痕模式下有效的 Google Cookie：
+> 
+> 1. 打开浏览器无痕窗口  
+> 2. 按 `F12` 打开开发者工具，切换到"网络(Network)"标签，过滤"Fetch/XHR"  
+> 3. 访问 [https://image.google.com/](https://image.google.com/)  并上传任意图片进行搜索
+> 4. 找到以 `search?vsrid=` 开头的请求，查看请求头中的 `Cookie` 字段  
+> 5. 复制完整的 Cookie 内容，替换到 `config.json` 中 `default_cookies` 的 `google_lens` 项
+> 
+> **注意：**  
+> - 有效cookie的充要参数为`NID= `
+> - 无痕模式cookie有效期限约1天
+> - 登录状态cookie有效期极短，不建议使用
 
 ## 📝 注意事项
+- `exhentai` 对 **地区** 有严格检查，要求 **优质欧美 IP**
 
-- `exhentai` 和 `google_lens` 对 **地区** 有严格检查
-- `exhentai` 要求 **优质欧美 IP**
-- `google_lens` 要求参数 `country` 不能为 `CN`，且`IP`必须与`country`相符合
-- 图片参数支持 `.gif` 格式，将会截取 **第一帧** 进行搜索
+<br><br>
 
 ---
 
-# API 参数说明文档
+# API 参数文档
 
 ## AnimeTrace
 

@@ -6,7 +6,7 @@ from ..response_parser import GoogleLensExactMatchesResponse, GoogleLensResponse
 from ..network import RESP
 from ..ext_tools import read_file
 from .base_req import BaseSearchReq
-from ..types import SearchType, FileContent
+from ..types import FileContent
 
 
 VALID_SEARCH_TYPES = ["all", "products", "visual_matches", "exact_matches"]
